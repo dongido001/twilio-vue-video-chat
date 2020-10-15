@@ -1,28 +1,35 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
+  <v-app>
+    <v-container pa-0 fluid fill-height>
+      <template v-if="!isAuthenticated">
+        <Login />
+      </template>
+      <template v-else>
+        <Room :roomName="roomName" />
+      </template>
+    </v-container>
+  </v-app>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import Login from '@/components/Login'
+import Room from '@/components/Room'
 
 export default {
   name: 'App',
+
   components: {
-    HelloWorld
+    Login,
+    Room
+  },
+
+  computed: {
+    isAuthenticated() {
+      return this.$store.state.authenticated
+    },
+    roomName() {
+      return this.$store.state.userDetail.room
+    }
   }
 }
 </script>
-
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
